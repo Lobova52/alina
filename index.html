@@ -1,40 +1,168 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<title>Динамический сайт на JavaScript</title>
-<style>
-  body { font-family: Arial, sans-serif; padding: 20px; }
-  button { padding: 10px 20px; font-size: 16px; }
-  #counter { font-size: 24px; margin-top: 20px; }
-</style>
+    <meta charset="UTF-8" />
+    <title>Пример сайта с использованием всех пунктов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #container {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .item {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f0f0f0;
+        }
+        .button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <h1>Демонстрация использования пунктов</h1>
+    <div id="container"></div>
+    <button id="addItemBtn" class="button">Добавить элемент</button>
+    <button id="removeItemBtn" class="button">Удалить последний элемент</button>
+    <button id="changeStyleBtn" class="button">Изменить стиль</button>
+    <button id="showObjectsBtn" class="button">Показать объекты</button>
 
-<h1>Добро пожаловать на мой сайт!</h1>
-<button id="clickBtn">Кликни меня!</button>
-<div id="counter">Клики: 0</div>
-<script src="script.js"></script>
-<script>
-  let count = 0;
-  const button = document.getElementById('clickBtn');
-  const counterDisplay = document.getElementById('counter');
+    <script>
+        // Знакомство с переменными, типами данных
+        let message = "Привет, мир!";
+        const number = 42;
+        var isActive = true;
 
-  button.addEventListener('click', () => {
-    count++;
-    counterDisplay.textContent = 'Клики: ' + count;
-    if (count % 10 === 0) {
-      alert('Ты достиг ' + count + ' кликов!');
-    }
-  });
+        // Работа с операторами и преобразованием типов
+        let sum = number + 10; // арифметический оператор
+        let strNumber = String(number); // преобразование числа в строку
+        let parsedNumber = parseInt(strNumber); // обратно в число
 
-  // Анимация фона
-  setInterval(() => {
-    document.body.style.backgroundColor = 
-      'hsl(' + Math.floor(Math.random() * 360) + ', 70%, 80%)';
-  }, 1000);
-</script>
+        // Функции
+        function createItem(text) {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.textContent = text;
+            return div;
+        }
 
+        // Массивы и циклы
+        const itemsData = ['Первый', 'Второй', 'Третий'];
+        const container = document.getElementById('container');
+
+        for (let i = 0; i < itemsData.length; i++) {
+            const item = createItem(itemsData[i]);
+            container.appendChild(item);
+        }
+
+        // Объекты
+        const user = {
+            name: 'Иван',
+            age: 30,
+            greet: function() {
+                alert('Привет, ' + this.name);
+            }
+        };
+
+        // Взаимодействие с DOM
+        // Создание и добавление новых элементов
+        document.getElementById('addItemBtn').addEventListener('click', () => {
+            const newItem = createItem('Новый элемент');
+            container.appendChild(newItem);
+        });
+
+        // Удаление последнего элемента
+        document.getElementById('removeItemBtn').addEventListener('click', () => {
+            if (container.lastChild) {
+                container.removeChild(container.lastChild);
+            }
+        });
+
+        // Замена стилей (работа со стилями)
+        document.getElementById('changeStyleBtn').addEventListener('click', () => {
+            container.style.backgroundColor = '#e0ffe0';
+            // Изменяем стиль всех элементов
+            Array.from(container.children).forEach(elem => {
+                elem.style.color = 'blue';
+            });
+        });
+
+        // Работа с DOM-коллекциями и операторами spread/rest
+        document.getElementById('showObjectsBtn').addEventListener('click', () => {
+            // Object.keys, Object.values, Object.entries
+            const keys = Object.keys(user);
+            const values = Object.values(user);
+            const entries = Object.entries(user);
+
+            alert(
+                'Ключи: ' + keys.join(', ') + '\n' +
+                'Значения: ' + values.join(', ') + '\n' +
+                'Пары: ' + entries.map(e => e.join(': ')).join('\n')
+            );
+        });
+
+        // Обработка событий (например, клик по объекту)
+        container.addEventListener('click', (event) => {
+            if (event.target.classList.contains('item')) {
+                alert('Вы кликнули по элементу: ' + event.target.textContent);
+            }
+        });
+
+        // Использование spread/rest операторов
+        const arr1 = [1, 2, 3];
+        const arr2 = [4, 5, 6];
+        const combined = [...arr1, ...arr2]; // spread оператор
+        console.log('Объединённый массив:', combined);
+
+        // Объявление функции с rest оператором
+        function sumAll(...numbers) {
+            return numbers.reduce((acc, cur) => acc + cur, 0);
+        }
+
+        console.log('Сумма чисел:', sumAll(1, 2, 3, 4, 5));
+
+        // Использование alert, prompt, confirm
+        const userName = prompt('Введите ваше имя:', 'Иван');
+        if (confirm('Хотите увидеть приветствие?')) {
+            alert('Привет, ' + userName + '!');
+        }
+
+        // Области видимости
+        function outerFunction() {
+            let outerVar = 'Внешняя переменная';
+
+            function innerFunction() {
+                let innerVar = 'Внутренняя переменная';
+                console.log(outerVar); // доступ к внешней переменной
+                console.log(innerVar);
+            }
+
+            innerFunction();
+        }
+
+        outerFunction();
+
+        // Объекты и функции высшего порядка
+        const numbers = [1, 2, 3, 4, 5];
+        const doubled = numbers.map(num => num * 2);
+        console.log('Удвоенные числа:', doubled);
+
+        // Создаем кнопку, чтобы вызвать метод объекта
+        const userObj = {
+            name: 'Петр',
+            greet: function() {
+                alert('Здравствуйте, ' + this.name);
+            }
+        };
+
+        // Вызов метода объекта
+        userObj.greet();
+
+    </script>
 </body>
 </html>
-
