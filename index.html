@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Динамический сайт на JavaScript</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  button { padding: 10px 20px; font-size: 16px; }
+  #counter { font-size: 24px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Добро пожаловать на мой сайт!</h1>
+<button id="clickBtn">Кликни меня!</button>
+<div id="counter">Клики: 0</div>
+<script src="script.js"></script>
+<script>
+  let count = 0;
+  const button = document.getElementById('clickBtn');
+  const counterDisplay = document.getElementById('counter');
+
+  button.addEventListener('click', () => {
+    count++;
+    counterDisplay.textContent = 'Клики: ' + count;
+    if (count % 10 === 0) {
+      alert('Ты достиг ' + count + ' кликов!');
+    }
+  });
+
+  // Анимация фона
+  setInterval(() => {
+    document.body.style.backgroundColor = 
+      'hsl(' + Math.floor(Math.random() * 360) + ', 70%, 80%)';
+  }, 1000);
+</script>
+
+</body>
+</html>
 
